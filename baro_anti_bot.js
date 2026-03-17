@@ -43,7 +43,7 @@
 
   // Create link
   const link = document.createElement('a');
-  link.href = 'https://www.baromk.com';
+  link.href = 'https://barolog.com';
   link.target = '_blank';
   link.style.display = 'block';
 
