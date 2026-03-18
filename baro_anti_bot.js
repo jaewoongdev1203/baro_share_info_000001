@@ -13,7 +13,6 @@
     isDark: baro_anti_bot.isDark || defaultConfig.isDark
   } : defaultConfig;
 
-  // 로고 데이터 정의
   const SYMBOL_PATHS = [
     { d: "M 50 8 L 68 26 L 32 26 Z", label: "top", shift: { x: 0, y: -6 } },
     { d: "M 32 30 L 68 30 L 50 50 L 68 70 L 32 70 Z", label: "center", shift: { x: 0, y: 0 }, scale: 0.85 },
@@ -21,10 +20,13 @@
     { d: "M 8 50 L 28 30 L 28 70 Z", label: "left", shift: { x: -6, y: 0 } },
   ];
 
-  const themeColor = config.isDark ? "#FFFFFF" : "#000000";
-  const subColor = config.isDark ? "rgba(255,255,255,0.7)" : "#6B7280";
+  // 스타일 설정 (JSX 기반)
+  const colors = {
+    text: config.isDark ? "#FFFFFF" : "#000000",
+    subText: config.isDark ? "rgba(255, 255, 255, 0.7)" : "#6B7280",
+    symbol: config.isDark ? "#FFFFFF" : "#0066FF" // text-primary 임의 지정
+  };
 
-  // 컨테이너 생성
   const container = document.createElement('div');
   container.id = 'baro-logo-root';
   Object.assign(container.style, {
@@ -35,8 +37,7 @@
     alignItems: 'flex-start',
     cursor: 'pointer',
     userSelect: 'none',
-    textDecoration: 'none',
-    transition: 'opacity 0.3s'
+    textDecoration: 'none'
   });
 
   const margin = config.margin;
@@ -48,40 +49,76 @@
   };
   Object.assign(container.style, posMapping[config.position] || posMapping['top-left']);
 
-  // 링크 생성
   const link = document.createElement('a');
   link.href = 'https://barolog.com';
   link.target = '_blank';
   link.style.display = 'flex';
+  link.style.alignItems = 'flex-start';
   link.style.textDecoration = 'none';
 
-  // SVG 생성
+  // SVG 생성 (50x50px)
   const svgNS = "http://www.w3.org/2000/svg";
   const svg = document.createElementNS(svgNS, "svg");
   svg.setAttribute("viewBox", "0 0 100 100");
-  Object.assign(svg.style, { width: '40px', height: '40px', marginRight: '10px', fill: themeColor });
+  Object.assign(svg.style, {
+    width: '50px',
+    height: '50px',
+    flexShrink: '0',
+    color: colors.symbol,
+    fill: 'currentColor',
+    transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
+  });
 
   const pathElements = SYMBOL_PATHS.map(item => {
     const path = document.createElementNS(svgNS, "path");
     path.setAttribute("d", item.d);
-    path.style.transition = "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s";
-    path.style.transformOrigin = "center";
+    path.setAttribute("stroke", "currentColor");
+    path.setAttribute("stroke-width", "1.5");
+    path.style.strokeOpacity = "0.3";
+    path.style.fillOpacity = "1";
+    path.style.transformOrigin = "50px 50px";
+    path.style.transition = "transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), stroke-opacity 0.55s";
     svg.appendChild(path);
     return { el: path, data: item };
   });
 
-  // 텍스트 영역 생성
+  // 텍스트 영역 (ml-1, pt-[14px])
   const textGroup = document.createElement('div');
-  textGroup.style.display = 'flex';
-  textGroup.style.flexDirection = 'column';
+  Object.assign(textGroup.style, {
+    marginLeft: '4px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingTop: '14px'
+  });
 
+  // 타이틀 (text-[20px], font-black)
   const title = document.createElement('span');
   title.innerText = "BARO Interactive";
-  Object.assign(title.style, { fontSize: '16px', fontWeight: 'bold', color: themeColor, lineHeight: '1.2' });
+  Object.assign(title.style, {
+    fontSize: '20px',
+    fontWeight: '900',
+    color: colors.text,
+    lineHeight: '20px',
+    letterSpacing: '-0.025em',
+    whiteSpace: 'nowrap',
+    fontFamily: 'system-ui, -apple-system, sans-serif'
+  });
 
+  // 서브타이틀 (text-[8.5px], mt-[4.5px])
   const subtitle = document.createElement('span');
   subtitle.innerText = "Digital Marketing Company";
-  Object.assign(subtitle.style, { fontSize: '12px', color: subColor, transition: 'all 0.4s', opacity: '0.7' });
+  Object.assign(subtitle.style, {
+    marginTop: '4.5px',
+    fontSize: '8.5px',
+    fontWeight: '600',
+    color: colors.subText,
+    lineHeight: '1',
+    letterSpacing: '0.03em',
+    opacity: '0.7',
+    transition: 'opacity 0.55s',
+    fontFamily: 'Pretendard, system-ui, sans-serif'
+  });
 
   textGroup.appendChild(title);
   textGroup.appendChild(subtitle);
@@ -89,27 +126,26 @@
   link.appendChild(textGroup);
   container.appendChild(link);
 
-  // 호버 이벤트 리스너
+  // Hover 이벤트
   container.addEventListener('mouseenter', () => {
+    svg.style.transform = 'scale(1.04)';
     pathElements.forEach(({ el, data }) => {
-      const scale = data.scale || 1;
+      const scale = data.scale || 1.02;
       el.style.transform = `translate(${data.shift.x}px, ${data.shift.y}px) scale(${scale})`;
-      el.style.opacity = "0.8";
+      el.style.strokeOpacity = "0.12";
     });
     subtitle.style.opacity = "1";
-    subtitle.style.transform = "translateX(2px)";
   });
 
   container.addEventListener('mouseleave', () => {
+    svg.style.transform = 'scale(1)';
     pathElements.forEach(({ el }) => {
       el.style.transform = "translate(0, 0) scale(1)";
-      el.style.opacity = "1";
+      el.style.strokeOpacity = "0.3";
     });
     subtitle.style.opacity = "0.7";
-    subtitle.style.transform = "translateX(0)";
   });
 
-  // DOM 삽입
   const appendToBody = () => {
     if (document.body) document.body.appendChild(container);
   };
