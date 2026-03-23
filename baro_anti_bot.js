@@ -100,8 +100,8 @@
   // 깜빡이는 붉은 점
   const redDot = document.createElement('div');
   Object.assign(redDot.style, {
-    width: '18px',
-    height: '18px',
+    width: '8px',
+    height: '8px',
     backgroundColor: '#ef4444',
     borderRadius: '50%',
     opacity: '0.8'
