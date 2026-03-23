@@ -92,8 +92,8 @@
     marginLeft: '4px',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    paddingTop: '14px'
+    alignItems: 'left',
+    paddingTop: '10px'
   });
 
   // 타이틀 (BARO LOG, Outfit 폰트 반영)
@@ -115,27 +115,28 @@
     display: 'flex',
     alignItems: 'center',
     gap: '4px',
-    marginTop: '4.5px'
+    marginTop: '2px'
   });
 
   const subtitle = document.createElement('span');
   subtitle.innerText = "부정클릭 감시중";
   Object.assign(subtitle.style, {
-    fontSize: '8.5px',
+    fontSize: '11px',
     fontWeight: '600',
     color: subTextColor,
     lineHeight: '1',
-    letterSpacing: '0.03em',
+    letterSpacing: '0.1em',
     opacity: '0.7',
-    fontFamily: 'system-ui, sans-serif',
-    transition: 'opacity 0.55s'
+    fontFamily: 'Outfit,Noto Sans KR,system-ui,sans-serif',
+    transition: 'opacity 0.55s',
+    paddingLeft: '1px'
   });
 
   // 깜빡이는 붉은 점
   const redDot = document.createElement('div');
   Object.assign(redDot.style, {
-    width: '4px',
-    height: '4px',
+    width: '6px',
+    height: '6px',
     backgroundColor: '#ef4444',
     borderRadius: '50%',
     opacity: '0.8'
@@ -180,7 +181,7 @@
       el.style.transform = "translate(0, 0) scale(1)";
       el.style.strokeOpacity = "0.3";
     });
-    subtitle.style.opacity = "0.7";
+    subtitle.style.opacity = "0.9";
   });
 
   // DOM 삽입
