@@ -129,7 +129,7 @@
     opacity: '0.7',
     fontFamily: 'Outfit,Noto Sans KR,system-ui,sans-serif',
     transition: 'opacity 0.55s',
-    paddingLeft: '1px'
+    paddingLeft: '2px'
   });
 
   // 깜빡이는 붉은 점
