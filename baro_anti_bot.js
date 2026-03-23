@@ -109,11 +109,18 @@
     transition: 'colors 0.3s'
   });
 
-  // 서브타이틀 (Enterprise Ad Protection)
+  // 서브타이틀 래퍼 및 텍스트
+  const subtitleWrapper = document.createElement('div');
+  Object.assign(subtitleWrapper.style, {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '4px',
+    marginTop: '4.5px'
+  });
+
   const subtitle = document.createElement('span');
   subtitle.innerText = "부정클릭 감시중";
   Object.assign(subtitle.style, {
-    marginTop: '4.5px',
     fontSize: '8.5px',
     fontWeight: '600',
     color: subTextColor,
@@ -124,8 +131,32 @@
     transition: 'opacity 0.55s'
   });
 
+  // 깜빡이는 붉은 점
+  const redDot = document.createElement('div');
+  Object.assign(redDot.style, {
+    width: '4px',
+    height: '4px',
+    backgroundColor: '#ef4444',
+    borderRadius: '50%',
+    opacity: '0.8'
+  });
+
+  // 점멸 애니메이션
+  redDot.animate([
+    { opacity: 0.2 },
+    { opacity: 1 }
+  ], {
+    duration: 800,
+    iterations: Infinity,
+    direction: 'alternate',
+    easing: 'ease-in-out'
+  });
+
+  subtitleWrapper.appendChild(subtitle);
+  subtitleWrapper.appendChild(redDot);
+
   textGroup.appendChild(title);
-  textGroup.appendChild(subtitle);
+  textGroup.appendChild(subtitleWrapper);
   link.appendChild(svg);
   link.appendChild(textGroup);
   container.appendChild(link);
