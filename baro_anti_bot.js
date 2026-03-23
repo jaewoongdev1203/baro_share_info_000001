@@ -111,7 +111,7 @@
 
   // 서브타이틀 (Enterprise Ad Protection)
   const subtitle = document.createElement('span');
-  subtitle.innerText = "Enterprise Ad Protection";
+  subtitle.innerText = "부정클릭 감시중";
   Object.assign(subtitle.style, {
     marginTop: '4.5px',
     fontSize: '8.5px',
