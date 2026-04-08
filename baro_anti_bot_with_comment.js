@@ -24,9 +24,8 @@
       const response = await fetch('https://api.ipify.org?format=json');
       const data = await response.json();
       userIP = data.ip;
-      console.log('Current User WAN IP:', userIP);
     } catch (error) {
-      console.error('Failed to fetch user IP:', error);
+      void 0;
     }
 
     // IP 조회 성공 시 메시지 출력 (약 2초 유지)
