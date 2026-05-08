@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 에이전트 최적화 및 아키텍처 전략 보고서</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-color: #ffffff;
+            --section-bg: #f8f9fa;
+            --text-color: #333;
+            --border-color: #dee2e6;
+        }
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            background-color: var(--bg-color);
+        }
+        header {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+        h1 {
+            color: var(--primary-color);
+            font-size: 24pt;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+        .meta {
+            color: #666;
+            font-size: 11pt;
+        }
+        .summary-box {
+            background-color: var(--section-bg);
+            border-left: 5px solid var(--accent-color);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 0 4px 4px 0;
+        }
+        h2 {
+            color: var(--primary-color);
+            font-size: 18pt;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        h3 {
+            color: var(--accent-color);
+            font-size: 14pt;
+            margin-top: 25px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: var(--section-bg);
+            font-weight: bold;
+        }
+        .highlight {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            font-size: 10pt;
+            color: #888;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>AI 에이전트 최적화 및 토큰 비용 절감을 위한 아키텍처 전략 보고서</h1>
+    <div class="meta">발표일: 2026년 3월 29일 | 보고자: Gemini</div>
+</header>
+
+<section class="summary-box">
+    <h2>1. 핵심 요약 (Executive Summary)</h2>
+    <ul>
+        <li><span class="highlight">현황:</span> 모노레포를 LLM에 직접 주입 시 <strong>막대한 토큰 비용</strong> 및 <strong>환각(Hallucination)</strong> 발생.</li>
+        <li><span class="highlight">문제점:</span> 기존 도구는 단순 파일 통합에 그쳐 고차원적 구조 정보 제공 불능.</li>
+        <li><span class="highlight">해결책:</span> <strong>'의존성 없는 마이크로 서비스(MSA)'</strong> 체계로의 전환 필수.</li>
+        <li><span class="highlight">결론:</span> 서비스 분할 및 API 규격화가 곧 최선의 <strong>프롬프트 엔지니어링</strong>임.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>2. 배경: '바이브 코딩' 시대의 한계</h2>
+    <p>최근 AI 에이전트를 활용한 개발(Vibe Coding)이 확산됨에 따라, 전체 코드베이스를 AI에게 이해시키기 위한 전처리 비용이 급증하고 있습니다.</p>
+    <ul>
+        <li><strong>컨텍스트 과부하:</strong> 프로젝트가 비대할수록 불필요한 코드 분석으로 토큰 소모 증가.</li>
+        <li><strong>문서화의 역설:</strong> AI를 보조하기 위해 인간이 다시 고비용 문서 작업에 투입되는 모순 발생.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>3. 기존 도구 분석 및 선분석 도구의 필요성</h2>
+    <p>시중의 오픈소스(Repomix, Gitingest)는 대규모 모노레포 대응에 한계가 명확합니다.</p>
+    <ul>
+        <li><strong>기존 도구:</strong> 단순 텍스트 팩킹 기반의 '수준 낮은 요약' 제공.</li>
+        <li><strong>선분석 도구 (repo_preflight.py):</strong> AST(tree-sitter) 및 의존성 그래프(networkx)를 활용하여 LLM에 <strong>'추론 가이드'</strong> 제공.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>4. 전략적 대안: MSA 기반 API 분할</h2>
+    <h3>가. 컨텍스트 물리적 격리</h3>
+    <p>서비스를 독립 레포지토리로 분리하여 AI가 분석해야 할 절대량을 제한하고 수정 정확도를 극대화합니다.</p>
+    
+    <h3>나. 인터페이스 기반 협업</h3>
+    <p>API 명세서(Swagger, gRPC)만으로 AI 간 협업이 가능하며, 이는 그 자체로 최적의 인스트럭션이 됩니다.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>구분</th>
+                <th>전략</th>
+                <th>기대 효과</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>구조</strong></td>
+                <td>서비스 분할 (Decoupling)</td>
+                <td>분석 범위 축소 및 토큰 절감</td>
+            </tr>
+            <tr>
+                <td><strong>명세</strong></td>
+                <td>API First 디자인</td>
+                <td>추론 정확도 향상 및 문서화 자동화</td>
+            </tr>
+            <tr>
+                <td><strong>관리</strong></td>
+                <td>의존성 제거 (Zero Dep)</td>
+                <td>사이드 이펙트 방지 및 디버깅 가속</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <h2>5. 향후 실행 계획 (Action Plan)</h2>
+    <ul>
+        <li><strong>과도기 조치:</strong> <code>repo_preflight.py</code>를 통해 레거시를 구조화된 메타데이터로 변환.</li>
+        <li><strong>궁극적 지향점:</strong> 신규 프로젝트에 <strong>'의존성 제로'</strong> 기반 MSA 채택.</li>
+        <li><strong>표준화:</strong> 모든 서비스 진입점을 API로 단일화하여 에이전트 온보딩 자동화.</li>
+    </ul>
+</section>
+
+<footer>
+    © 2026 AI Architecture Strategy Report. Generated for Team Presentation.
+</footer>
+
+</body>
+</html>
